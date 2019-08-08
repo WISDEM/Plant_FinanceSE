@@ -102,9 +102,9 @@ class PlantFinance(Component):
             print('Number of turbines in the park   %u'              % n_turbine)
             print('Cost of the single turbine       %.3f M USD'      % (c_turbine * 1.e-006))  
             print('BoS costs of the single turbine  %.3f M USD'      % (c_bos_turbine * 1.e-006))  
-            print('Initial capital cost of the park %.3f M USD'      % (icc * 1.e-006))  
+            print('Initial capital cost of the park %.3f M USD'      % (icc * n_turbine * t_rating * 1.e-003))  
             print('Opex costs of the single turbine %.3f M USD'      % (c_opex_turbine * 1.e-006))
-            print('Opex costs of the park           %.3f M USD'      % (c_opex * 1.e-006))              
+            print('Opex costs of the park           %.3f M USD'      % (c_opex_turbine * n_turbine * 1.e-006))              
             print('Fixed charge rate                %.2f %%'         % (fcr * 100.))     
             print('Wake loss factor                 %.2f %%'         % (wlf * 100.))         
             print('AEP of the single turbine        %.3f GWh'        % (turb_aep * 1.e-006))    
@@ -112,7 +112,7 @@ class PlantFinance(Component):
             print('Capital costs                    %.2f $/kW'       % icc) #added
             print('NEC                              %.2f MWh/MW/yr'  % nec) #added
             print('Outputs:')
-            print('LCoE                             %.3f USD/MW'     % (unknowns['lcoe']  * 1.e003)) #removed "coe", best to have only one metric for cost
+            print('LCoE                             %.3f USD/MW'     % (lcoe  * 1.e003)) #removed "coe", best to have only one metric for cost
             print('################################################')
             
                     
@@ -128,22 +128,23 @@ class Finance(Group):
         super(Finance, self).__init__()
 
          # LCOE Calculation
-        self.add('plantfinancese', PlantFinance(verbosity = True)) #verbosity = True prints out costs
+        self.add('plantfinancese', PlantFinance(verbosity = True), promotes=['*']) #verbosity = True prints out costs
 
 
 if __name__ == "__main__":
     # Initialize OpenMDAO problem and FloatingSE Group
     prob = Problem(root=Finance()) # runs script
     prob.setup()
-    
-    prob['plantfinancese.machine_rating']          = 2.32    #MW
-    prob['plantfinancese.turbine_cost']            = 1093  * 2.32 * 1.e+003  #USD
-    prob['plantfinancese.turbine_number']          = 87.
-    prob['plantfinancese.turbine_avg_annual_opex'] = 43.56 * 2.32 * 1.e+003  # USD 70 $/kW/yr, updated from report, 70 $/kW/yr is on the high side
-    prob['plantfinancese.fixed_charge_rate']       = 0.079216644 # 7.9 % confirmed from report
-    prob['plantfinancese.turbine_bos_costs']       = 517. * 2.32 * 1.e+003 # * 2.32 * 1.e+006 * 1.e-003 # 250 $/kW, from apendix of report
-    prob['plantfinancese.wake_loss_factor']        = 0.15 # confirmed from report 
-    prob['plantfinancese.turbine_aep']             = 8428.56 * 1.e+003 # confirmed from report 
+
+    rating = 2.32 #MW
+    prob['machine_rating']          = rating
+    prob['turbine_cost']            = 1093  * rating * 1.e+003  #USD
+    prob['turbine_number']          = 87.
+    prob['turbine_avg_annual_opex'] = 43.56 * rating * 1.e+003  # USD/yr Source: 70 $/kW/yr, updated from report, (70 is on the high side)
+    prob['fixed_charge_rate']       = 0.079216644 # 7.9 % confirmed from report
+    prob['turbine_bos_costs']       = 517. * rating * 1.e+003 # from apendix of report
+    prob['wake_loss_factor']        = 0.15 # confirmed from report 
+    prob['turbine_aep']             = 8428.56 * 1.e+003 # confirmed from report 
     
     prob.run()
 

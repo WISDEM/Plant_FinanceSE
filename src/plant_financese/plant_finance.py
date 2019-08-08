@@ -11,15 +11,15 @@ class PlantFinance(Component):
         self.add_param('turbine_number',    val=0,                      desc='Number of turbines at plant', pass_by_obj=True)
         self.add_param('bos_per_kW',        val=0.0, units='USD/kW',    desc='Balance of system costs of the turbine')
         self.add_param('opex_per_kW',       val=0.0, units='USD/kW/yr', desc='Average annual operational expenditures of the turbine')
-        self.add_param('park_aep',          val=0.0, units='kWh',       desc='Annual Energy Production of the wind plant')
-        self.add_param('turbine_aep',       val=0.0, units='kWh',       desc='Annual Energy Production of the wind turbine')
+        self.add_param('park_aep',          val=0.0, units='kW*h',       desc='Annual Energy Production of the wind plant')
+        self.add_param('turbine_aep',       val=0.0, units='kW*h',       desc='Annual Energy Production of the wind turbine')
     
         # Parameters
         self.add_param('wake_loss_factor',  val=0.15,                   desc='The losses in AEP due to waked conditions')
         self.add_param('fixed_charge_rate', val=0.079216644,            desc = 'Fixed charge rate for coe calculation')
 
         # Outputs
-        self.add_output('lcoe',             val=0.0, units='USD/kWh',   desc='Levelized cost of energy for the wind plant')
+        self.add_output('lcoe',             val=0.0, units='USD/kW/h',   desc='Levelized cost of energy for the wind plant')
         
         self.verbosity = verbosity
         

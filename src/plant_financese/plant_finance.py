@@ -13,7 +13,7 @@ class PlantFinance(Component):
         self.add_param('park_aep',          val=0.0, units='kW*h',  desc='Annual Energy Production of the wind plant')
         self.add_param('turbine_aep',       val=0.0, units='kW*h',  desc='Annual Energy Production of the wind turbine')
         self.add_param('wake_loss_factor',  val=0.0,                desc='The losses in AEP due to waked conditions')
-        self.add_param('machine_rating',  val=0.0, units='MW',                desc='rating of the turbine')
+        self.add_param('machine_rating',    val=0.0, units='MW',                desc='rating of the turbine')
 
         # parameters
         self.add_param('fixed_charge_rate', val=0.12,               desc = 'Fixed charge rate for coe calculation')
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     prob['fixed_charge_rate']       = 0.079216644 # 7.9 % confirmed from report
     prob['turbine_bos_costs']       = 517. * rating * 1.e+003 # from apendix of report
     prob['wake_loss_factor']        = 0.15 # confirmed from report 
-    prob['turbine_aep']             = 8428.56 * 1.e+003 # confirmed from report 
+    prob['turbine_aep']             = 9915.95294117647 * 1.e+003 # confirmed from report 
     
     prob.run()
 

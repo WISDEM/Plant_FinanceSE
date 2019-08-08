@@ -15,10 +15,10 @@ class PlantFinance(Component):
         self.add_param('turbine_aep',       val=0.0, units='kWh',       desc='Annual Energy Production of the wind turbine')
         self.add_param('wake_loss_factor',  val=0.0,                    desc='The losses in AEP due to waked conditions')
     
-        # parameters    
+        # Parameters    
         self.add_param('fixed_charge_rate', val=0.079216644,            desc = 'Fixed charge rate for coe calculation')
 
-        #Outputs
+        # Outputs
         self.add_output('lcoe',             val=0.0, units='USD/kWh',   desc='Levelized cost of energy for the wind plant')
         
         self.verbosity = verbosity

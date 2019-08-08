@@ -13,9 +13,9 @@ class PlantFinance(Component):
         self.add_param('opex_per_kW',       val=0.0, units='USD/kW/yr', desc='Average annual operational expenditures of the turbine')
         self.add_param('park_aep',          val=0.0, units='kWh',       desc='Annual Energy Production of the wind plant')
         self.add_param('turbine_aep',       val=0.0, units='kWh',       desc='Annual Energy Production of the wind turbine')
-        self.add_param('wake_loss_factor',  val=0.0,                    desc='The losses in AEP due to waked conditions')
     
-        # Parameters    
+        # Parameters
+        self.add_param('wake_loss_factor',  val=0.15,                   desc='The losses in AEP due to waked conditions')
         self.add_param('fixed_charge_rate', val=0.079216644,            desc = 'Fixed charge rate for coe calculation')
 
         # Outputs
